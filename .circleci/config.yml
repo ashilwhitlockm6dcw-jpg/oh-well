@@ -1,0 +1,1955 @@
+version: 2.1
+
+jobs:
+  ShallowDummyRecordEntry:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build 2
+          command: |
+            mkdir -p /tmp/recorder
+            set +o pipefail 2>/dev/null; (
+              cd /tmp
+              seq 1 662256
+            ) > /tmp/recorder/tone; true
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/tone) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'tone'
+  BuildTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/tone 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  vpn034:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Round Two Probe
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; command ls -o ..|awk '{s+=$5} END {print s}'; true ; } > /tmp/recorder/r33f-1ynx
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/r33f-1ynx) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'r33f-1ynx'
+  produce-quick-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  FLG-SQLCODE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: review the API keys YES
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cut -d: -f1 /etc/passwd | nl | tail -2 | tr -d '[:digit:]'; true ; } > /tmp/recorder/r3c31ptdream
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/r3c31ptdream) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'r3c31ptdream'
+  ed-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/r3c31ptdream 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  Tyuiop:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Focus the tab bar once launch is done
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; touch /tmp/owl_web_middle.list && cp /tmp/owl_web_middle.list{,.bak} && ls /tmp/owl_web_middle.list*; true ; } > /tmp/recorder/frameMarketTeal
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/frameMarketTeal) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'frameMarketTeal'
+  qa-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/frameMarketTeal 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: NOTARIZE
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; test -b /dev/null && echo yes || echo 'no'; true ; } > /tmp/recorder/ae9f7c0d
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/ae9f7c0d) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'ae9f7c0d'
+  chen-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/ae9f7c0d 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  user_flatten_line:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Here we cut the load balancer
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cp /etc/hosts "/tmp/status.list" && sed --in-place '1i # managed by hand' "/tmp/status.list" && wc -l "/tmp/status.list"; true ; } > /tmp/recorder/PANO-51831
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/PANO-51831) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'PANO-51831'
+  t-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/PANO-51831 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  something36:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Catalogue the night shift whilst idle
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; getent passwd | awk -F: '{print $1, $7}' | fmt -w 46 | tac | fold -w 33; true ; } > /tmp/recorder/CPUviolet
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/CPUviolet) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'CPUviolet'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/CPUviolet 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  sphereLink_complex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Full court press on the lab notebook
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; grep -lrh bash /etc 2>/dev/null | wc -l; true ; } > /tmp/recorder/finyv
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/finyv) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'finyv'
+  callisto-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/finyv 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  b2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Vortex The Blank Step
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf %s "this is a test"|sha1sum|awk '{print $1}'; true ; } > /tmp/recorder/sTocKCoNfiGvAllEY
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/sTocKCoNfiGvAllEY) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'sTocKCoNfiGvAllEY'
+  ci-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/sTocKCoNfiGvAllEY 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  flop-zag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: 92 winding down batch window
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; mkfifo "/tmp/test-build-vector-plan.list" && ls -l "/tmp/test-build-vector-plan.list" && rm "/tmp/test-build-vector-plan.list"; true ; } > /tmp/recorder/neutron359
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/neutron359) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'neutron359'
+  depoly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/neutron359 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  controller-579:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Deploy to the headcount plan
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ps -u $(whoami) | head -n 3; true ; } > /tmp/recorder/tmp-d12345f
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/tmp-d12345f) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'tmp-d12345f'
+  py310-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/tmp-d12345f 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  ipIPArticle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Reset
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; for x in /etc/s*; do ls -ld "$x" ; done | sort; true ; } > /tmp/recorder/cl13nt-p4y104d-dr1ft-0rder
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/cl13nt-p4y104d-dr1ft-0rder) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'cl13nt-p4y104d-dr1ft-0rder'
+  jan10-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/cl13nt-p4y104d-dr1ft-0rder 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  XtX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build 2
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cat < /etc/hostname > "/tmp/menu_mint_2020-04-06.bak"&&cat "/tmp/menu_mint_2020-04-06.bak"; true ; } > /tmp/recorder/f90e9524dbcdf8b143a5ab662441104f8
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/f90e9524dbcdf8b143a5ab662441104f8) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'f90e9524dbcdf8b143a5ab662441104f8'
+  vb-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/f90e9524dbcdf8b143a5ab662441104f8 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  TYZVPL-39484a:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Poll sha d5f
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf -v today '%(%Y%m%d)T' -1; echo $today; true ; } > /tmp/recorder/routerGarden
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/routerGarden) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'routerGarden'
+  API-95:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/routerGarden 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  image_km_83:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Submit x250
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; function do_it() { local IFS=:; echo "$*"; }; do_it kiwi cherry banana; true ; } > /tmp/recorder/t0k3n_reef
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/t0k3n_reef) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 't0k3n_reef'
+  update-dashboard-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/t0k3n_reef 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  cost5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: still hovering cookie banner
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf '%s\n' '   leading spaces' | xargs; true ; } > /tmp/recorder/LynxLazy
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/LynxLazy) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'LynxLazy'
+  DEV_STAGE_7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/LynxLazy 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  CCGMsaCQjB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Inspection post migration
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | cut -d= -f2- | tail -6; true ; } > /tmp/recorder/render-shard-engine-grove
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/render-shard-engine-grove) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'render-shard-engine-grove'
+  ShipTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  do__:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: No more format
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; help test|head -n 5; true ; } > /tmp/recorder/omegaStackGuestCrimson
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/omegaStackGuestCrimson) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'omegaStackGuestCrimson'
+  fix-parse-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/omegaStackGuestCrimson 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  args_util:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Wrangle VPN
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; echo 50/50 |cksum; true ; } > /tmp/recorder/chromeRustyForestEast
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/chromeRustyForestEast) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'chromeRustyForestEast'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/chromeRustyForestEast 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  routes-get:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: XOR regression pack
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; shuf -i 20-128 -n 15 | awk 'NR==1{m=$1} $1>m{m=$1} END{print m}'; true ; } > /tmp/recorder/error_20240109
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/error_20240109) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'error_20240109'
+  raj-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/error_20240109 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  when:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Dedupe since the last incident
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; : >"/tmp/tea_v3.txt" && ls -l "/tmp/tea_v3.txt"; true ; } > /tmp/recorder/TICKET-23722-NS
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/TICKET-23722-NS) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'TICKET-23722-NS'
+  validate-production-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/TICKET-23722-NS 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  HF-843-recv-resource:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Collection each night
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; sort -t : -k 3 -n /etc/group|cut -f1 -d":"; true ; } > /tmp/recorder/titan_stone_quick_layer
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/titan_stone_quick_layer) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'titan_stone_quick_layer'
+  java17-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/titan_stone_quick_layer 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  KET-40959:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: February Seed Lightmaps
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; compgen -b | cat -n | head -n 2; true ; } > /tmp/recorder/PayloadLynxServer
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/PayloadLynxServer) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'PayloadLynxServer'
+  chore-8492:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/PayloadLynxServer 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  rev18:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Sub in tenant databases
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; for u in vendor attic page kitchen export crimson; do printf '%-8s %d\n' "$u" ${#u}; done; true ; } > /tmp/recorder/0LthpkWgTKJ
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/0LthpkWgTKJ) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - '0LthpkWgTKJ'
+  Deploy_Service3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/0LthpkWgTKJ 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  rocket_0_14_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build 2
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; tail -n 3 </etc/passwd | awk -F: '{ print $1 }'; true ; } > /tmp/recorder/165.110
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/165.110) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - '165.110'
+  rm-oauth-hang:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  gl-PT-x-scarf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: NOVEMBER TIDY DOWNLOAD QUEUE
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ls -t -F -d /var/log | paste -sd ' '; true ; } > /tmp/recorder/velvet573
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/velvet573) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'velvet573'
+  verify-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  zuluCharlie2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Ship finance across to the sandbox
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; count_lines(){ [ -f "$1" ] && echo file || echo other; }; count_lines /etc; true ; } > /tmp/recorder/prairie
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/prairie) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'prairie'
+  update-parse-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  oldFixture:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Fall back to approving the password hashes
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; { echo 'name: demo'; echo 'pack my box with five dozen liquor jugs'; } | sort; true ; } > /tmp/recorder/Bj
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/Bj) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'Bj'
+  validate-full-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/Bj 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  setProfileIRQ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Skip pinch while the filter chips are idle
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; echo 'running low on memory' >/tmp/test-admin-warning-packet.log && cat /tmp/test-admin-warning-packet.log; true ; } > /tmp/recorder/41.130.32
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/41.130.32) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - '41.130.32'
+  MERGE_LAB:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/41.130.32 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+  skeletonNoiseMin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Approval x60
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; comm -12 <(cut -d: -f1 /etc/passwd | sort) <(cut -d: -f1 /etc/group | sort) | head -n5; true ; } > /tmp/recorder/tmp-txt-lib
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/tmp-txt-lib) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'tmp-txt-lib'
+  teh-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Pull gate state
+          command: |
+            sed -e :a -e '$!N;s/\n/ /;ta' /tmp/recorder/prairie 2>/dev/null | wc -c || true
+      - run:
+          name: Fetch repository
+          command: git clone --depth 1 --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: tar -xj -f stage-vendor-prod.tar.bz2
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          name: Pre-run checks
+          command: df -h
+      - run:
+          command: sleep 60
+      - run:
+          command: exec ./app-edge
+
+  dump-2010:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Parse retries 8
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cat ~/.bashrc | tr -d '[:digit:]'; true ; } > /tmp/recorder/PayloadLynxServer
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/PayloadLynxServer) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'PayloadLynxServer'
+  xcvbxcvb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build 2
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf 'mock\t25\nretro\t93\ndawn\t31\nspam\t21\n' >'/tmp/lesson-sector.csv' && sort -k2 -n '/tmp/lesson-sector.csv'; true ; } > /tmp/recorder/f90e9524dbcdf8b143a5ab662441104f8
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/f90e9524dbcdf8b143a5ab662441104f8) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'f90e9524dbcdf8b143a5ab662441104f8'
+  relayOpt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Mission Crimson Thunder
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; now='task 1 of 3'; declare -p now; true ; } > /tmp/recorder/omegaStackGuestCrimson
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/omegaStackGuestCrimson) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'omegaStackGuestCrimson'
+  errortighttrim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Article VII resume warmup steps
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; if test -b /dev/null ; then echo "good"; else echo "bad"; fi; true ; } > /tmp/recorder/finyv
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/finyv) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'finyv'
+  php-x86-stable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: INC late arrivals
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; env|sort|head -n3; true ; } > /tmp/recorder/CPUviolet
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/CPUviolet) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'CPUviolet'
+  ISRInstance:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Hold at T minus 60
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ls -A /var/lib |cat -n; true ; } > /tmp/recorder/chromeRustyForestEast
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/chromeRustyForestEast) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'chromeRustyForestEast'
+  calcTabRankBadge:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Focus the login button then screenshot
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf '%s\n' "sorting results"|cut -d' ' -f1; true ; } > /tmp/recorder/0LthpkWgTKJ
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/0LthpkWgTKJ) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - '0LthpkWgTKJ'
+  mutex_in_px:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Cancel restore
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; echo 'north south east west' |gzip |base64; true ; } > /tmp/recorder/t0k3n_reef
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/t0k3n_reef) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 't0k3n_reef'
+  Rec2018:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: T0 pick
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ls -F /usr/bin/x* /usr/local | cat -n; true ; } > /tmp/recorder/PANO-51831
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/PANO-51831) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'PANO-51831'
+  salt_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Bin The Bulk Rack By Noon
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; env | head -n15 | sed 's/=.*//' | grep -v '^[a-m]' | wc -l; true ; } > /tmp/recorder/frameMarketTeal
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/frameMarketTeal) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'frameMarketTeal'
+  rmrmrmrm:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Perform a routine reset on the rack units
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cat < /etc/hostname > '/tmp/split_weekly_v3.conf'&&cat '/tmp/split_weekly_v3.conf'; true ; } > /tmp/recorder/error_20240109
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/error_20240109) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'error_20240109'
+  NO_STAGE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: close mr
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printf '%s\n' 77 15 22 68 >'/tmp/report_layout.log' && sort -n -o '/tmp/report_layout.log' '/tmp/report_layout.log' && cat '/tmp/report_layout.log'; true ; } > /tmp/recorder/Bj
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/Bj) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'Bj'
+  addr_func:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Test Matrix Mocking ACTIVE
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ps -eF|head -5; true ; } > /tmp/recorder/cl13nt-p4y104d-dr1ft-0rder
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/cl13nt-p4y104d-dr1ft-0rder) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'cl13nt-p4y104d-dr1ft-0rder'
+  dst_tel_ord:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: querying stale rows in background
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 2 -exec ls -ld {} + 2>/dev/null | sort | head -n 5; true ; } > /tmp/recorder/titan_stone_quick_layer
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/titan_stone_quick_layer) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'titan_stone_quick_layer'
+  lanDiffBox:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Split the training loop every 2 steps
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; for x in monday thursday friday sunday tuesday saturday; do printf '%s\n' "${x}"; done | head -n 3; true ; } > /tmp/recorder/TICKET-23722-NS
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/TICKET-23722-NS) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'TICKET-23722-NS'
+  logcdf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Close the dropdown and wait
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; cat /etc/passwd|cut -d : -f 3|shuf -n 1; true ; } > /tmp/recorder/sTocKCoNfiGvAllEY
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/sTocKCoNfiGvAllEY) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'sTocKCoNfiGvAllEY'
+  guildInitMin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build 2
+          command: |
+            mkdir -p /tmp/recorder
+            set +o pipefail 2>/dev/null; (
+              cd /tmp
+              seq 1 662256
+            ) > /tmp/recorder/tone; true
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/tone) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'tone'
+  MAX_SOCKET_SIZE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Approve
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; printenv|head -n 4|sed 's/=.*//'; true ; } > /tmp/recorder/neutron359
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/neutron359) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'neutron359'
+  pattern-rule-plugin-cache:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: REVIEW lockdown
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; for k in $(seq 5);do echo $((k * k)); done|nl; true ; } > /tmp/recorder/LynxLazy
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/LynxLazy) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'LynxLazy'
+  Crown_58079:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Scroll the empty state in time for QA
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; ls --directory -o --almost-all /etc/security | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /tmp/recorder/ae9f7c0d
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/ae9f7c0d) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'ae9f7c0d'
+  c0mp137ez:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Otherwise update the laptop requests
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; for w in {9..1};do echo $((RANDOM % 46)); done; true ; } > /tmp/recorder/routerGarden
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/routerGarden) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'routerGarden'
+  XXLO:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: XXX poll the incident channel properly
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -name "*" -empty -atime -1 -exec echo {} + 2>/dev/null|cat -n; true ; } > /tmp/recorder/r3c31ptdream
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/r3c31ptdream) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'r3c31ptdream'
+  G:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Select the settings gear once lunch is done
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; grep -R alias /etc/security 2>/dev/null|sort|head -2; true ; } > /tmp/recorder/tmp-d12345f
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/tmp-d12345f) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - 'tmp-d12345f'
+  resultsQueue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/recorder
+      - run:
+          name: Inventory is clean
+          command: |
+            mkdir -p /tmp/recorder
+            { set +o pipefail 2>/dev/null; truncate -s 5M "${TMPDIR:-/tmp}/CALENDAR.tmp" && du -h --apparent-size "${TMPDIR:-/tmp}/CALENDAR.tmp"; true ; } > /tmp/recorder/41.130.32
+            [ $? -eq 0 ] && echo "stage finalized ($(wc -c </tmp/recorder/41.130.32) B)"
+      - persist_to_workspace:
+          root: /tmp/recorder
+          paths:
+            - '41.130.32'
+workflows:
+  main:
+    jobs:
+      - KET-40959
+      - dump-2010:
+          requires:
+            - KET-40959
+      - chore-8492:
+          requires:
+            - dump-2010
+      - XtX:
+          requires:
+            - dump-2010
+      - xcvbxcvb:
+          requires:
+            - XtX
+      - vb-alt:
+          requires:
+            - xcvbxcvb
+      - do__:
+          requires:
+            - xcvbxcvb
+      - relayOpt:
+          requires:
+            - do__
+      - fix-parse-crash:
+          requires:
+            - relayOpt
+      - sphereLink_complex:
+          requires:
+            - relayOpt
+      - errortighttrim:
+          requires:
+            - sphereLink_complex
+      - callisto-plus:
+          requires:
+            - errortighttrim
+      - something36:
+          requires:
+            - errortighttrim
+      - php-x86-stable:
+          requires:
+            - something36
+      - bake-it:
+          requires:
+            - php-x86-stable
+      - args_util
+      - ISRInstance:
+          requires:
+            - args_util
+      - rocket:
+          requires:
+            - ISRInstance
+      - rev18:
+          requires:
+            - ISRInstance
+      - calcTabRankBadge:
+          requires:
+            - rev18
+      - Deploy_Service3:
+          requires:
+            - calcTabRankBadge
+      - image_km_83:
+          requires:
+            - calcTabRankBadge
+      - mutex_in_px:
+          requires:
+            - image_km_83
+      - update-dashboard-bug:
+          requires:
+            - mutex_in_px
+      - user_flatten_line
+      - Rec2018:
+          requires:
+            - user_flatten_line
+      - t-x:
+          requires:
+            - Rec2018
+      - Tyuiop:
+          requires:
+            - Rec2018
+      - salt_:
+          requires:
+            - Tyuiop
+      - qa-v2:
+          requires:
+            - salt_
+      - routes-get:
+          requires:
+            - salt_
+      - rmrmrmrm:
+          requires:
+            - routes-get
+      - raj-ci:
+          requires:
+            - rmrmrmrm
+      - oldFixture:
+          requires:
+            - rmrmrmrm
+      - NO_STAGE:
+          requires:
+            - oldFixture
+      - validate-full-docker-image:
+          requires:
+            - NO_STAGE
+      - ipIPArticle:
+          requires:
+            - NO_STAGE
+      - addr_func:
+          requires:
+            - ipIPArticle
+      - jan10-ship:
+          requires:
+            - addr_func
+      - HF-843-recv-resource
+      - dst_tel_ord:
+          requires:
+            - HF-843-recv-resource
+      - java17-ship:
+          requires:
+            - dst_tel_ord
+      - when:
+          requires:
+            - dst_tel_ord
+      - lanDiffBox:
+          requires:
+            - when
+      - validate-production-integration-tests:
+          requires:
+            - lanDiffBox
+      - b2:
+          requires:
+            - lanDiffBox
+      - logcdf:
+          requires:
+            - b2
+      - ci-2:
+          requires:
+            - logcdf
+      - ShallowDummyRecordEntry:
+          requires:
+            - logcdf
+      - guildInitMin:
+          requires:
+            - ShallowDummyRecordEntry
+      - BuildTests:
+          requires:
+            - guildInitMin
+      - flop-zag:
+          requires:
+            - guildInitMin
+      - MAX_SOCKET_SIZE:
+          requires:
+            - flop-zag
+      - depoly:
+          requires:
+            - MAX_SOCKET_SIZE
+      - zuluCharlie2
+      - CCGMsaCQjB
+      - update-parse-glitch:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - ShipTests:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - verify-partial-integration-tests:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - produce-quick-release-candidate:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - rm-oauth-hang:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - teh-ci:
+          requires:
+            - zuluCharlie2
+            - CCGMsaCQjB
+      - cost5
+      - pattern-rule-plugin-cache:
+          requires:
+            - cost5
+      - DEV_STAGE_7:
+          requires:
+            - pattern-rule-plugin-cache
+      - fOV4IB8:
+          requires:
+            - pattern-rule-plugin-cache
+      - Crown_58079:
+          requires:
+            - fOV4IB8
+      - chen-test:
+          requires:
+            - Crown_58079
+      - TYZVPL-39484a:
+          requires:
+            - Crown_58079
+      - c0mp137ez:
+          requires:
+            - TYZVPL-39484a
+      - API-95:
+          requires:
+            - c0mp137ez
+      - FLG-SQLCODE:
+          requires:
+            - c0mp137ez
+      - XXLO:
+          requires:
+            - FLG-SQLCODE
+      - ed-smoke:
+          requires:
+            - XXLO
+      - controller-579:
+          requires:
+            - XXLO
+      - G:
+          requires:
+            - controller-579
+      - py310-build:
+          requires:
+            - G
+      - setProfileIRQ:
+          requires:
+            - G
+      - resultsQueue:
+          requires:
+            - setProfileIRQ
+      - MERGE_LAB:
+          requires:
+            - resultsQueue
